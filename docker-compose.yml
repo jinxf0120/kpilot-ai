@@ -1,0 +1,36 @@
+version: "3.8"
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: kpilot-ai-backend:latest
+    container_name: kpilot-ai-backend
+    ports:
+      - "${KPILOT_PORT:-8000}:8000"
+    environment:
+      - LLM_PROVIDER=${LLM_PROVIDER:-openai}
+      - LLM_MODEL=${LLM_MODEL:-gpt-4o}
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
+      - OPENAI_ENDPOINT=${OPENAI_ENDPOINT:-}
+      - GEMINI_API_KEY=${GEMINI_API_KEY:-}
+      - XAI_API_KEY=${XAI_API_KEY:-}
+      - HTTP_PROXY=${HTTP_PROXY:-}
+      - HTTPS_PROXY=${HTTPS_PROXY:-}
+      - NO_PROXY=${NO_PROXY:-}
+      - KPILOT_DATA_DIR=/data
+    volumes:
+      - ${KUBECONFIG_PATH:-~/.kube/config}:/home/appuser/.kube/config:ro
+      - kpilot-data:/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/docs')"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
+volumes:
+  kpilot-data:
+    driver: local

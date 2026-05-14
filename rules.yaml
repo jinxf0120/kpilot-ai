@@ -1,0 +1,34 @@
+execution_policy:
+  auto_execute: false
+  require_user_confirmation: true
+
+allowed_kubectl_commands:
+  - get
+  - describe
+  - logs
+  - events
+  - top
+
+forbidden_kubectl_commands:
+  - delete
+  - apply
+  - patch
+  - scale
+  - rollout
+  - exec
+  - port-forward
+
+intent_policy:
+  read:
+    allow: true
+  diagnose:
+    allow: true
+  write:
+    allow: false
+  destructive:
+    allow: false
+
+kubeconfig_policy:
+  location: backend_only
+  exposure_to_ai: forbidden
+  exposure_to_client: forbidden
