@@ -1,0 +1,6 @@
+fastapi==0.83.0
+uvicorn==0.16.0
+pydantic==1.10.21
+pyyaml==6.0.2
+kubernetes==35.0.0
+cryptography>=43.0.0
