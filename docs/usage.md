@@ -88,6 +88,10 @@ docker build \
 
 Verify the service is running at `http://localhost:8000/docs` (or your Ingress URL).
 
+## Browser Extension 
+### Before Installing the Browser Extension 
+1. Modify API_BASE in `extension/config.js` to the **backend URL**
+
 ### Install the Browser Extension
 
 1. Open Chrome/Edge and navigate to `chrome://extensions/`
