@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="query">Query</button>
+      <button class="tab-btn" data-tab="settings">Settings</button>
+    </div>
+
+    <div id="tab-query" class="tab-content">
+      <section id="query-form" class="selectors">
+        <label for="cluster">Cluster</label>
+        <select id="cluster" required>
+          <option value="">-- Select cluster --</option>
+        </select>
+
+        <label for="namespace">Namespace</label>
+        <select id="namespace" disabled>
+          <option value="">-- All namespaces --</option>
+        </select>
+      </section>
+
+      <section id="query-input" class="input-area">
+        <label for="user-input">Natural Language Input</label>
+        <textarea id="user-input" rows="3" placeholder="e.g. Show pods in default namespace&#10;Why is this pod restarting?"></textarea>
+        <div class="input-actions">
+          <button id="preview-btn" disabled>Generate / Preview</button>
+          <button id="fullscreen-btn" class="fullscreen-btn" title="Open in full screen">&#x26F6;</button>
+        </div>
+        <div class="divider-row"><span class="divider-text">or run command directly</span></div>
+        <textarea id="direct-command" class="command-input" rows="2" placeholder="e.g. kubectl get pods -n default"></textarea>
+        <button id="direct-execute-btn" disabled>Run Command</button>
+      </section>
+
+      <section id="preview-area" class="preview-area hidden">
+        <h2>AI Preview</h2>
+        <div class="field">
+          <span class="label">Proposed Command <span id="cmd-edit-hint" class="hint">(editable)</span></span>
+          <textarea id="proposed-command" class="command-input" rows="2"></textarea>
+        </div>
+        <div id="policy-warning" class="policy-warning hidden">This command violates the security policy and cannot be executed.</div>
+        <div class="field">
+          <span class="label">Explanation:</span>
+          <span id="explanation"></span>
+        </div>
+      </section>
+
+      <section id="confirm-area" class="confirm-area hidden">
+        <button id="confirm-btn" class="confirm">Execute</button>
+        <button id="cancel-btn" class="cancel">Cancel</button>
+      </section>
+
+      <section id="result-area" class="result-area hidden">
+        <h2>Execution Result</h2>
+        <div class="field">
+          <span class="label">Command:</span>
+          <code id="executed-command"></code>
+          <button id="re-exec-btn" class="re-exec-btn">Re-execute</button>
+        </div>
+        <div class="field">
+          <span class="label">Output:</span>
+          <pre id="output"></pre>
+        </div>
+        <button id="new-query-btn" class="new-query-btn">New Query</button>
+      </section>
+
+      <section id="error-area" class="error-area hidden">
+        <span id="error-message"></span>
+        <button id="error-back-btn" class="error-back-btn">Back</button>
+      </section>
+    </div>
+
+    <div id="tab-settings" class="tab-content hidden">
+      <section class="settings-section">
+        <h2>LLM Configuration</h2>
+        <label for="llm-provider">Provider</label>
+        <select id="llm-provider">
+          <option value="openai">OpenAI</option>
+          <option value="gemini">Gemini</option>
+          <option value="ollama">Ollama</option>
+          <option value="grok">Grok</option>
+          <option value="bedrock">Bedrock</option>
+          <option value="azopenai">Azure OpenAI</option>
+        </select>
+
+        <label for="llm-model">Model</label>
+        <input type="text" id="llm-model" placeholder="e.g. gpt-4o, gemini-2.5-pro">
+
+        <label for="api-key">API Key <span id="api-key-status" class="field-status"></span></label>
+        <input type="password" id="api-key" placeholder="Your API key">
+
+        <label for="api-endpoint">API Endpoint <span class="hint">(optional)</span></label>
+        <input type="text" id="api-endpoint" placeholder="e.g. http://your-llm:8000/v1">
+      </section>
+
+      <section class="settings-section">
+        <h2>Kubernetes</h2>
+        <label for="kubeconfig">Kubeconfig <span class="hint">(paste content)</span> <span id="kubeconfig-status" class="field-status"></span></label>
+        <textarea id="kubeconfig" rows="6" placeholder="Paste your kubeconfig YAML here..."></textarea>
+      </section>
+
+      <div class="settings-actions">
+        <button id="save-settings-btn">Save Settings</button>
+        <button id="clear-settings-btn" class="btn-danger">Clear Settings</button>
+      </div>
+      <div id="settings-status" class="hidden"></div>
+    </div>
+  </div>
+
+  <script src="config.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

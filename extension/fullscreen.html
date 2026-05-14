@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="fullscreen.css">
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <h1>K8s AI</h1>
+        <div class="header-actions">
+          <button id="settings-btn" class="theme-btn" title="Settings">&#9881;</button>
+          <button id="theme-btn" class="theme-btn" title="Toggle theme">
+            <span class="theme-icon-light">&#9788;</span>
+            <span class="theme-icon-dark">&#9790;</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="sidebar-body">
+        <div class="form-group">
+          <label for="cluster">Cluster</label>
+          <select id="cluster" required>
+            <option value="">-- Select --</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="namespace">Namespace</label>
+          <select id="namespace" disabled>
+            <option value="">-- All namespaces --</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="user-input">Query</label>
+          <textarea id="user-input" rows="3" placeholder="e.g. Show pods in default&#10;Why is this pod restarting?"></textarea>
+        </div>
+
+        <button id="preview-btn" class="btn-primary" disabled>Generate / Preview</button>
+
+        <div id="preview-area" class="preview-area hidden">
+          <div class="preview-label">Proposed Command <span id="cmd-edit-hint" class="hint">(editable)</span></div>
+          <textarea id="proposed-command" class="command-input" rows="2"></textarea>
+          <div id="policy-warning" class="policy-warning hidden">This command violates the security policy and cannot be executed.</div>
+          <div class="preview-label" style="margin-top:8px">Explanation</div>
+          <div id="explanation" class="explanation-text"></div>
+          <div class="confirm-row">
+            <button id="confirm-btn" class="btn-confirm">Execute</button>
+            <button id="cancel-btn" class="btn-cancel">Cancel</button>
+          </div>
+        </div>
+
+        <div class="divider-row"><span class="divider-text">or run command directly</span></div>
+
+        <div class="form-group">
+          <textarea id="direct-command" class="command-input" rows="2" placeholder="e.g. kubectl get pods -n default"></textarea>
+        </div>
+        <button id="direct-execute-btn" class="btn-secondary" disabled>Run Command</button>
+
+        <div id="sidebar-error" class="sidebar-error hidden">
+          <span id="sidebar-error-msg"></span>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <div id="results-list" class="results-list"></div>
+      <div id="empty-state" class="empty-state">
+        <div class="empty-icon">⎈</div>
+        <p>Query results will appear here</p>
+      </div>
+    </main>
+  </div>
+
+  <div id="settings-overlay" class="modal-overlay hidden">
+    <div class="modal">
+      <div class="modal-header">
+        <h2>Settings</h2>
+        <button id="settings-close-btn" class="modal-close">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="fs-llm-provider">Provider</label>
+          <select id="fs-llm-provider">
+            <option value="openai">OpenAI</option>
+            <option value="gemini">Gemini</option>
+            <option value="ollama">Ollama</option>
+            <option value="grok">Grok</option>
+            <option value="bedrock">Bedrock</option>
+            <option value="azopenai">Azure OpenAI</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="fs-llm-model">Model</label>
+          <input type="text" id="fs-llm-model" placeholder="e.g. gpt-4o, gemini-2.5-pro">
+        </div>
+
+        <div class="form-group">
+          <label for="fs-api-key">API Key <span id="fs-api-key-status" class="field-status"></span></label>
+          <input type="password" id="fs-api-key" placeholder="Your API key">
+        </div>
+
+        <div class="form-group">
+          <label for="fs-api-endpoint">API Endpoint <span class="hint">(optional)</span></label>
+          <input type="text" id="fs-api-endpoint" placeholder="e.g. http://your-llm:8000/v1">
+        </div>
+
+        <div class="form-group">
+          <label for="fs-kubeconfig">Kubeconfig <span class="hint">(paste content)</span> <span id="fs-kubeconfig-status" class="field-status"></span></label>
+          <textarea id="fs-kubeconfig" rows="6" placeholder="Paste your kubeconfig YAML here..."></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button id="fs-save-btn" class="btn-confirm" style="flex:1">Save</button>
+        <button id="fs-clear-btn" class="btn-cancel" style="flex:1">Clear</button>
+      </div>
+      <div id="fs-settings-status" class="modal-status hidden"></div>
+    </div>
+  </div>
+
+  <script src="config.js"></script>
+  <script src="fullscreen.js"></script>
+</body>
+</html>
