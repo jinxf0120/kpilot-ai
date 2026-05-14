@@ -23,7 +23,7 @@ kpilot-ai lets you query and inspect Kubernetes clusters using natural language.
   <img src="docs/assets/fullscreen.png" width="600" alt="Fullscreen view">
 </p>
 -->
-
+![console](./images/usage.png)
 ## How It Works
 
 ```
@@ -75,7 +75,7 @@ kpilot-ai lets you query and inspect Kubernetes clusters using natural language.
 ```
 Preview (no execution)          Confirm & Execute
 ─────────────────────           ─────────────────
-User submits query        ──▶   User clicks "Confirm"
+User submits query        ──▶   User clicks "Execute"
 AI generates command      ──▶   Backend re-validates policy
 Command shown to user     ──▶   Command executed on cluster
 ```
