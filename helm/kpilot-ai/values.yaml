@@ -1,0 +1,70 @@
+replicaCount: 1
+
+image:
+  repository: kpilot-ai-backend
+  pullPolicy: IfNotPresent
+  tag: "latest"
+
+service:
+  type: ClusterIP
+  port: 8000
+
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+  hosts:
+    - host: kpilot-ai.local
+      paths:
+        - path: /
+          pathType: Prefix
+  tls: []
+
+resources:
+  limits:
+    cpu: 500m
+    memory: 512Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 3
+  targetCPUUtilizationPercentage: 80
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+llm:
+  provider: openai
+  model: gpt-4o
+
+proxy:
+  httpProxy: ""
+  httpsProxy: ""
+  noProxy: ""
+
+secrets:
+  openaiApiKey: ""
+  openaiEndpoint: ""
+  geminiApiKey: ""
+  xaiApiKey: ""
+
+kubeconfig:
+  enabled: false
+  secretName: ""
+  secretKey: kubeconfig
+
+persistence:
+  enabled: true
+  storageClassName: ""
+  accessMode: ReadWriteOnce
+  size: 1Gi
+  existingClaim: ""
+
+extraEnv: []

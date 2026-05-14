@@ -1,0 +1,15 @@
+apiVersion: v2
+name: kpilot-ai
+description: AI-powered Kubernetes copilot with human-in-the-loop control for safe operations
+type: application
+version: 0.1.0
+appVersion: "1.0.0"
+home: https://github.com/your-org/kpilot-ai
+keywords:
+  - kubernetes
+  - kubectl
+  - ai
+  - copilot
+  - natural-language
+maintainers:
+  - name: kpilot-ai-team
